@@ -1,0 +1,6 @@
+rel/tosh/
+deps/
+*~
+*.beam
+*.app
+

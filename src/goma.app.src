@@ -1,0 +1,12 @@
+{application, goma,
+ [
+  {description, ""},
+  {vsn, "1"},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {mod, { goma_app, []}},
+  {env, []}
+ ]}.
