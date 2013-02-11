@@ -5,7 +5,14 @@
         ]).
 
 dispatch(Selector, Rules) ->
-    find_match(re:split(Selector, "/"), Rules).
+    Parts = case re:split(Selector, "/") of
+                [<<>>|Rest] ->
+                    %% this also translates the empty selector
+                    %% (Selector == <<>>) to the empty list []
+                    Rest;
+                Other -> Other
+            end,
+    find_match(Parts, Rules).
 
 find_match(_, []) ->
     nomatch;
