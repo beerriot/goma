@@ -1,9 +1,23 @@
+%% @doc Choosing a module to handle a request by matching the selector
+%% to a set of rules. In an effort to prevent duplication, please see
+%% the examples on the wiki:
+%% [https://github.com/beerriot/goma/wiki/Dispatching]
 -module(goma_dispatcher).
 
 -export([
          dispatch/2
         ]).
 
+-export_type([rule/0]).
+
+-type rule() :: {Match :: match(), Module :: atom(), Argument :: term()}.
+-type match() :: [string()|binary()|atom()].
+-type binding() :: {Name :: atom(), Value :: binary()}.
+
+%% @doc Find a rule matching the selector.
+-spec dispatch(binary(), [rule()]) ->
+         {ok, [binding()], Module :: atom(), Argument :: term()}
+        |nomatch.
 dispatch(Selector, Rules) ->
     Parts = case re:split(Selector, "/") of
                 [<<>>|Rest] ->
@@ -24,6 +38,8 @@ find_match(SelectorParts, [{Match, Module, Args}|Rest]) ->
             find_match(SelectorParts, Rest)
     end.
 
+-spec is_match([binary()], match(), [binding()]) ->
+        {true, [binding()]} | false.
 is_match([], [], Bindings) ->
     {true, Bindings};
 is_match(Parts, ['*'], Bindings) ->
