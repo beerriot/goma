@@ -82,7 +82,7 @@ init([]) ->
     Name = myapp_goma,
     IP = {127,0,0,1},
     Port = 7070,
-    Dispatch = {['*'], goma_hw, []},
+    Dispatch = [{['*'], goma_hw, []}],
     GomaSupSpec = goma:child_spec(Name, IP, Port, Dispatch),
     {ok, {{one_for_one,5,10}, [GomaSupSpec]}}.
 ```
