@@ -15,6 +15,8 @@ This is your basic Hello World resource:
 
 -compile([export_all]).
 
+-include_lib("goma/include/goma.hrl").
+
 init(Args) ->
     {ok, Args}.
 
